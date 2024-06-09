@@ -5,13 +5,13 @@
     </div>
     <main>
       <ul>
-        <li class="item flex" v-for="mon in pokemon" :key="mon.id">
+        <li v-for="mon in pokemon" :key="mon.id" class="item flex" @click="detail(mon.id)">
           <img class="product-image" :src="mon.img" :alt="mon.name"/>
           <p>{{ mon.num }}</p>
           <p>{{ mon.name }}</p>
             <div v-for="type in mon.type" :key="type">
               <p>{{ type }}</p>
-            </div> 
+            </div>
         </li>
       </ul>
     </main>
@@ -22,25 +22,23 @@
 import axios from 'axios'
 
 export default {
-    components:{
-    },
-    data(){
-        return{
-            products : []
+    data () {
+        return {
+            products: []
         }
     },
-    async asyncData(){
+    async asyncData () {
         const response = await axios.get('http://localhost:3000/pokemon')
         const pokemon = response.data
-        console.log(pokemon)
-        return {pokemon}
+        return { pokemon }
     },
-    async created(){
-        
+    methods: {
+      detail (id) {
+        this.$router.push(`/detail/${id}`)
+      }
     }
 }
 </script>
-
 
 <style scoped>
 .flex {
