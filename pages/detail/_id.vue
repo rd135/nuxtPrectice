@@ -9,9 +9,9 @@
         />
       </div>
       <div class="side-panel">
-        <p>{{ pokemon.name }}</p>
-        <p>{{ pokemon.num }}</p>
-        <!-- <button type="button" @click="addToCart">Add to Cart</button> -->
+        <p class="name">{{ pokemon.name }}</p>
+        <p class="price">{{ pokemon.num }}</p>
+        <button type="button" @click="addTofavorite">Add to favorite</button>
       </div>
     </div>
   </div>

@@ -1,7 +1,9 @@
 <template>
   <div class="app">
     <div>
-      <input type="text">
+      <SearchInput
+        v-model="inputText"
+        @search="filterItemsBySearchText"></SearchInput>
     </div>
     <main>
       <ul>
@@ -20,23 +22,37 @@
 
 <script>
 import axios from 'axios'
+import SearchInput from '../components/SearchInput.vue'
+import { fetchPokemonsByKeyword } from '~/api'
 
 export default {
-    data () {
-        return {
-            products: []
-        }
-    },
-    async asyncData () {
+  components: { SearchInput },
+  async asyncData () {
         const response = await axios.get('http://localhost:3000/pokemon')
         const pokemon = response.data
         return { pokemon }
+  },
+  data () {
+        return {
+            inputText: '',
+            products: []
+        }
     },
-    methods: {
-      detail (id) {
-        this.$router.push(`/detail/${id}`)
-      }
+  methods: {
+    async filterItemsBySearchText () {
+      const { data } = await fetchPokemonsByKeyword(this.inputText)
+      this.pokemon = data.map(mon => ({
+        ...mon
+      }))
+// 이 코드의 의미는 다음과 같습니다:
+// data.map(mon => ({ ...mon })): data 배열의 각 요소를 mon 변수로 받아, 각 요소에 대해 새로운 객체를 생성합니다.
+// { ...mon }: 스프레드 문법을 사용하여 mon 객체의 모든 속성을 새로운 객체로 복사합니다. 이 새로운 객체는 원래 mon 객체와 동일한 속성을 갖습니다.
+// 즉, data 배열의 각 객체를 새로운 객체로 복사하여 this.pokemon 배열에 저장하는 역할을 합니다. 이렇게 하면 this.pokemon 배열의 각 요소는 data 배열의 각 요소와 동일한 속성을 가지지만, 서로 다른 메모리 참조를 가지게 됩니다. 원본 객체를 수정하지 않고 새로운 객체를 생성하는 방법입니다.
+    },
+    detail (id) {
+      this.$router.push(`/detail/${id}`)
     }
+  }
 }
 </script>
 
