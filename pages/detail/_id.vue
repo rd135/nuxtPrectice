@@ -18,11 +18,18 @@
 </template>
 
 <script>
-import { fetchPokemonById } from '~/api'
+import { fetchPokemonById, createFavoritePokemon } from '~/api'
 export default {
  async asyncData ({ params }) {
     const response = await fetchPokemonById(params.id)
     return { pokemon: response.data }
+  },
+  methods: {
+    async addTofavorite () {
+      await createFavoritePokemon(this.pokemon)
+      this.$store.commit('addPokemonToFavorites', this.pokemon)
+      this.$router.push('/favorite')
+    }
   }
 }
 </script>

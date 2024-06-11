@@ -20,19 +20,19 @@ function fetchPokemonsByKeyword (keyword) {
   })
 }
 
-// carts
-function fetchCartItems () {
-  return instance.get('/carts')
+// favorite
+function fetchFavoritePokemon () {
+  return instance.get('/favorite')
 }
 
-function createCartItem (cartItem) {
-  return instance.post('/carts', cartItem)
+function createFavoritePokemon (favorites) {
+  return instance.post('/favorite', favorites)
 }
 
 export {
   fetchPokemons,
   fetchPokemonById,
   fetchPokemonsByKeyword,
-  fetchCartItems,
-  createCartItem
+  fetchFavoritePokemon,
+  createFavoritePokemon
 }
